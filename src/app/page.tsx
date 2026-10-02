@@ -659,7 +659,11 @@ export default function Home() {
   const getApiUrl = (endpoint: string) => {
     if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) return endpoint;
     const apiBase = (process.env.NEXT_PUBLIC_API_URL || "").replace(/\/$/, "");
-    return `${apiBase}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+    const cleanEndpoint = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+    if (apiBase.endsWith("/api") && cleanEndpoint.startsWith("/api/")) {
+      return `${apiBase}${cleanEndpoint.slice(4)}`;
+    }
+    return `${apiBase}${cleanEndpoint}`;
   };
 
   const safeFetch = async (url: string, options?: RequestInit) => {
