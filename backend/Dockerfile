@@ -11,7 +11,7 @@ COPY backend/prisma ./prisma/
 RUN npm ci
 
 # Copiar código fuente y compilar TypeScript
-COPY backend/ .
+COPY .
 RUN npx prisma generate
 RUN npm run build
 
